@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="SportClub:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/SportClub_ear_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="SportClub/javaeeApplication/javaEEApplication" />
+      <element id="directory" name="web.war">
+        <element id="artifact" artifact-name="sp" />
+      </element>
+    </root>
+  </artifact>
+</component>

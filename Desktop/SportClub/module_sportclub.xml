@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_sportclub" default="compile.module.sportclub">
+  <dirname property="module.sportclub.basedir" file="${ant.file.module_sportclub}"/>
+  
+  <property name="module.jdk.home.sportclub" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.sportclub" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.sportclub" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.sportclub" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="sportclub.output.dir" value="${module.sportclub.basedir}/out/production/SportClub"/>
+  <property name="sportclub.testoutput.dir" value="${module.sportclub.basedir}/out/test/SportClub"/>
+  
+  <path id="sportclub.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="sportclub.module.production.classpath">
+    <path refid="${module.jdk.classpath.sportclub}"/>
+    <path refid="library.glassfish_4.1.0.classpath"/>
+  </path>
+  
+  <path id="sportclub.runtime.production.module.classpath">
+    <pathelement location="${sportclub.output.dir}"/>
+  </path>
+  
+  <path id="sportclub.module.classpath">
+    <path refid="${module.jdk.classpath.sportclub}"/>
+    <pathelement location="${sportclub.output.dir}"/>
+    <path refid="library.glassfish_4.1.0.classpath"/>
+  </path>
+  
+  <path id="sportclub.runtime.module.classpath">
+    <pathelement location="${sportclub.testoutput.dir}"/>
+    <pathelement location="${sportclub.output.dir}"/>
+    <path refid="library.glassfish_4.1.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.sportclub">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.sportclub">
+    <patternset refid="excluded.from.module.sportclub"/>
+  </patternset>
+  
+  <path id="sportclub.module.sourcepath">
+    <dirset dir="${module.sportclub.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.sportclub" depends="compile.module.sportclub.production,compile.module.sportclub.tests" description="Compile module SportClub"/>
+  
+  <target name="compile.module.sportclub.production" depends="register.custom.compilers" description="Compile module SportClub; production classes">
+    <mkdir dir="${sportclub.output.dir}"/>
+    <javac2 destdir="${sportclub.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.sportclub}/javac">
+      <compilerarg line="${compiler.args.sportclub}"/>
+      <bootclasspath refid="sportclub.module.bootclasspath"/>
+      <classpath refid="sportclub.module.production.classpath"/>
+      <src refid="sportclub.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.sportclub"/>
+    </javac2>
+    
+    <copy todir="${sportclub.output.dir}">
+      <fileset dir="${module.sportclub.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.sportclub.tests" depends="register.custom.compilers,compile.module.sportclub.production" description="compile module SportClub; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.sportclub" description="cleanup module">
+    <delete dir="${sportclub.output.dir}"/>
+    <delete dir="${sportclub.testoutput.dir}"/>
+  </target>
+</project>
